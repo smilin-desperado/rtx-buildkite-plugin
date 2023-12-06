@@ -1,0 +1,6 @@
+name: rtx
+configuration:
+  properties:
+    path:
+      type: string
+      description: location of .tool-versions/.rtx.toml file
