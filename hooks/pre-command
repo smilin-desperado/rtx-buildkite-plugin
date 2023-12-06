@@ -1,3 +1,19 @@
 #!/usr/bin/env bash
 
+set -x
 echo "--- rtx Buildkite plugin"
+
+
+function install_rtx {
+  os=linux
+  arch=$BUILDKITE_AGENT_META_DATA_AWS_ARCHITECTURE
+  url="https://rtx.pub/rtx-latest-${os}-${arch}"
+  install_path="/var/lib/buildkite-agent/rtx"
+
+  curl -fLlSso "${install_path}/$(basename $url)" "$install_path"
+}
+
+if ! command -v rtx &>/dev/null; then
+  echo "Installing rtx"
+  install_rtx
+fi
