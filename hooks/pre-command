@@ -10,7 +10,7 @@ function install_rtx {
   url="https://rtx.pub/rtx-latest-${os}-${arch}"
   install_path="/var/lib/buildkite-agent/rtx"
 
-  curl -fLlSso "${install_path}/$(basename $url)" "$install_path"
+  curl -fLlSso  "$install_path/$(basename $url)" "$url"
 }
 
 if ! command -v rtx &>/dev/null; then
