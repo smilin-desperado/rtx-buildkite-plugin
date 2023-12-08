@@ -17,9 +17,12 @@ function install_rtx {
   curl -fLlSso "$tempFilename" "$url"
 
   sudo mv $tempFilename $install_path
+
+  export PATH="$install_path:$PATH"
 }
 
 if ! command -v rtx &>/dev/null; then
   echo "Installing rtx"
   install_rtx
 fi
+
