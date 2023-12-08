@@ -18,6 +18,7 @@ function install_rtx {
 
   sudo mv $tempFilename $install_path
   chmod +x $install_path
+  ls -la /var/lib/buildkite-agent
 
   export PATH="$install_path:$PATH"
 }
