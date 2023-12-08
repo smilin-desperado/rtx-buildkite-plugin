@@ -12,7 +12,7 @@ function install_rtx {
   filename="$(basename $url)"
   tempFilename="$downloadDir/$filename"
 
-  install_path="/usr/local/bin"
+  install_path="/usr/local/bin/rtx"
 
   curl -fLlSso "$tempFilename" "$url"
 
