@@ -36,6 +36,7 @@ export RTS_YES=yes
 
 # https://github.com/jdx/rtx#rtx_legacy_version_file1
 export RTX_LEGACY_VERSION_FILE=1
+whoami
 
 echo "Running rtx install"
 rtx install
