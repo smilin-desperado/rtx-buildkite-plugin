@@ -3,7 +3,6 @@
 set -x
 echo "--- rtx Buildkite plugin"
 
-
 function install_rtx {
   os=linux
   arch=${BUILDKITE_AGENT_META_DATA_AWS_ARCHITECTURE:-amd64}
@@ -27,4 +26,7 @@ if ! command -v rtx &>/dev/null; then
   echo "Installing rtx"
   install_rtx
 fi
+
+echo "Running rtx install"
+rtx install -y
 
