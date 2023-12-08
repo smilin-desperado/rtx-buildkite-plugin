@@ -1,32 +1,41 @@
 #!/usr/bin/env bash
 
-set -x
 echo "--- rtx Buildkite plugin"
 
 function install_rtx {
-  os=linux
-  arch=${BUILDKITE_AGENT_META_DATA_AWS_ARCHITECTURE:-amd64}
-  url="https://rtx.pub/rtx-latest-${os}-${arch}"
-  downloadDir="$(mktemp -d)"
-  filename="$(basename $url)"
-  tempFilename="$downloadDir/$filename"
+	os=linux
+	arch=${BUILDKITE_AGENT_META_DATA_AWS_ARCHITECTURE:-amd64}
+	url="https://rtx.pub/rtx-latest-${os}-${arch}"
+	downloadDir="$(mktemp -d)"
+	filename="$(basename "$url")"
+	tempFilename="$downloadDir/$filename"
 
-  install_path="/usr/local/bin/rtx"
+	install_path="/usr/local/bin/rtx"
 
-  curl -fLlSso "$tempFilename" "$url"
-
-  sudo mv $tempFilename $install_path
-  chmod +x $install_path
-  ls -la $install_path
-
-  /usr/local/bin/rtx --version
+	if curl -fLlSso "$tempFilename" "$url"; then
+		sudo mv "$tempFilename" $install_path
+		chmod +x $install_path
+		ls -la $install_path
+	else
+		echo "Unable to download rtx"
+	fi
 }
 
 if ! command -v rtx &>/dev/null; then
-  echo "Installing rtx"
-  install_rtx
+	echo "Installing rtx"
+	install_rtx
 fi
 
-echo "Running rtx install"
-rtx install -y
+# RTX settings
 
+# https://github.com/jdx/rtx#rtx_asdf_compat1
+export RTX_ASDF_COMPAT=1
+
+# https://github.com/jdx/rtx#rtx_yesyes
+export RTS_YES=yes
+
+# https://github.com/jdx/rtx#rtx_legacy_version_file1
+export RTX_LEGACY_VERSION_FILE=1
+
+echo "Running rtx install"
+rtx install
