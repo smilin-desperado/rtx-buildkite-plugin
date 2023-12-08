@@ -17,6 +17,7 @@ function install_rtx {
   curl -fLlSso "$tempFilename" "$url"
 
   sudo mv $tempFilename $install_path
+  chmod +x $install_path
 
   export PATH="$install_path:$PATH"
 }
