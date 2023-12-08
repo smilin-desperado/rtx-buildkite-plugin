@@ -12,15 +12,15 @@ function install_rtx {
   filename="$(basename $url)"
   tempFilename="$downloadDir/$filename"
 
-  install_path="/var/lib/buildkite-agent/rtx"
+  install_path="/usr/local/bin"
 
   curl -fLlSso "$tempFilename" "$url"
 
   sudo mv $tempFilename $install_path
   chmod +x $install_path
-  ls -la /var/lib/buildkite-agent
+  ls -la $install_path
 
-  export PATH="$install_path:$PATH"
+  /usr/local/bin/rtx --version
 }
 
 if ! command -v rtx &>/dev/null; then
