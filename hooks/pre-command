@@ -6,11 +6,17 @@ echo "--- rtx Buildkite plugin"
 
 function install_rtx {
   os=linux
-  arch=$BUILDKITE_AGENT_META_DATA_AWS_ARCHITECTURE
+  arch=${BUILDKITE_AGENT_META_DATA_AWS_ARCHITECTURE:-amd64}
   url="https://rtx.pub/rtx-latest-${os}-${arch}"
+  downloadDir="$(mktemp -d)"
+  filename="$(basename $url)"
+  tempFilename="$downloadDir/$filename"
+
   install_path="/var/lib/buildkite-agent/rtx"
 
-  curl -fLlSso  "$install_path/$(basename $url)" "$url"
+  curl -fLlSso "$tempFilename" "$url"
+
+  sudo mv $tempFilename $install_path
 }
 
 if ! command -v rtx &>/dev/null; then
